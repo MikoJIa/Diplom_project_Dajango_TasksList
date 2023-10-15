@@ -1,6 +1,6 @@
 <!doctype html>
 {% load static %}
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,7 +11,7 @@
     <title>{% block title %}Главная страница{% endblock %}</title>
 </head>
 <body>
-{% block header %}{% endblock header %}
+{% block header %} {% endblock header %}
     <header class="p-3 text-bg-dark">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -20,24 +20,28 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+            <button type="button" class="btn btn-warning border border-2 border-dark"><a href="{% url 'home_page' %}" class="nav-link px-2 text-secondary">Домашняя</a></button>
+<!--          <li><a href="{% url 'home_page' %}" class="nav-link px-2 text-secondary">Домашняя</a></li>-->
+            <button type="button" class="btn btn-warning border border-2 border-dark"><a href="#" class="nav-link px-2 text-secondary">Создать задачу</a></button>
+<!--          <li><a href="#" class="nav-link px-2 text-white">Создать задачу</a></li>-->
+            <button type="button" class="btn btn-warning border border-2 border-dark"><a href="{% url 'register' %}" class="nav-link px-2 text-secondary">Регистрация</a></button>
+<!--          <li><a href="{% url 'register' %}" class="nav-link px-2 text-white">Регистрация</a></li>-->
+            <button type="button" class="btn btn-warning border border-2 border-dark"><a href="{% url 'auth_user' %}" class="nav-link px-2 text-secondary">Авторизация</a></button>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
           <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
         </form>
 
-        <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Login</button>
-          <button type="button" class="btn btn-warning">Sign-up</button>
-        </div>
+<!--        <div class="text-end">-->
+<!--          <button type="button" class="btn btn-outline-light me-2">Login</button>-->
+<!--          <button type="button" class="btn btn-warning">Sign-up</button>-->
+<!--        </div>-->
       </div>
     </div>
   </header>
+{% block content %}
+{% endblock content %}
 </body>
 </html>
 
