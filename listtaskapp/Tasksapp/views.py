@@ -2,22 +2,37 @@ from django.contrib import auth
 from django.shortcuts import render, redirect
 from .forms import TaskForm, UserRegisterForm, UserLoginForm
 from django.contrib.auth import login, authenticate
-from django.http import HttpResponse
-from .models import User
+from django.http import HttpResponse, HttpResponseNotFound
+from .models import User, Tasks
 
 
 def create_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            task = form.save()
-            task.user = request.user
-            return redirect('home.html')
+            form.save()
+            task = form.save(commit=False)
+            user = User.objects.get(user=request.user) # Нужно обратить внимание, что мы
+            # используем не id поле, а мы используем именно объект
+            task.user = user
+            task.save()
+            return redirect('home_page.html')
     form = TaskForm()
+    task_obj = Tasks.objects.all()
     context = {
-        'form': form
+        'form': form,
+        'task_obj': task_obj
     }
-    return render(request, 'Tasksapp/create_task', context)
+    return render(request, 'Tasksapp/create_task.html', context)
+
+
+def task_delete(request, id):
+    try:
+        task = Tasks.objects.get(id=id)
+        task.delete()
+        return redirect('create_task')
+    except NameError:
+        return HttpResponseNotFound(f'<h1>Такая задача не найдена!!!</h1>')
 
 
 def register_user(request):
