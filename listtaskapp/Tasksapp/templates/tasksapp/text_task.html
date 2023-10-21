@@ -1,0 +1,8 @@
+{% extends 'Tasksapp/base.html' %}
+
+{% block content %}
+    {% for i in task %}
+    <h1>{{ i.title }}</h1>
+    <p>{{ i.description }}</p>
+    {% endfor %}
+{% endblock content %}

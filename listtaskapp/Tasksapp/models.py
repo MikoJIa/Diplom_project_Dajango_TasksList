@@ -8,6 +8,10 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
 
 class Tasks(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название задачи')
@@ -20,6 +24,10 @@ class Tasks(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Задача'
+        verbose_name_plural = 'Задачи'
+
 
 class FavoriteTask(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -27,3 +35,7 @@ class FavoriteTask(models.Model):
 
     def __str__(self):
         return f'{self.user.name} {self.task.title}'
+
+    class Meta:
+        verbose_name = 'Приоритетная задача'
+        verbose_name_plural = 'Приоритетные задачи'
