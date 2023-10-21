@@ -1,9 +1,13 @@
 from django.contrib import auth
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+
 from .forms import TaskForm, UserRegisterForm, UserLoginForm
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse, HttpResponseNotFound
-from .models import User, Tasks
+from .models import User, Tasks, FavoriteTask
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def create_task(request):
@@ -14,9 +18,8 @@ def create_task(request):
             task = form.save(commit=False)
             user = User.objects.get(user=request.user) # Нужно обратить внимание, что мы
             # используем не id поле, а мы используем именно объект
-            task.user = user
-            task.save()
-            return redirect('home_page.html')
+            task.user = user.save()
+            return redirect('create_task')
     form = TaskForm()
     task_obj = Tasks.objects.all()
     context = {
@@ -30,9 +33,35 @@ def task_delete(request, id):
     try:
         task = Tasks.objects.get(id=id)
         task.delete()
-        return redirect('create_task')
+        return redirect('home_page')
     except NameError:
         return HttpResponseNotFound(f'<h1>Такая задача не найдена!!!</h1>')
+
+
+def add_favorite_task(request, task_id):
+    # task = Tasks.objects.get(id=task_id)
+    # favorite, created = FavoriteTask.objects.get_or_create(user=request.user)
+    # if task in favorite.task.all():
+    #     favorite.task.remove(task)
+    # else:
+    #     favorite.task.add(task)
+    # return redirect('favorite_task', task_id=task_id)
+    if request.method == 'POST':
+        task = Tasks.objects.get(pk=task_id)
+
+    # task = Tasks.objects.get(id=task_id)  # Находим нужную задачу
+    # user = User.objects.get(user=request.user)
+    # favorite_task = FavoriteTask(user=user, task=task)
+    # favorite_task.save()
+    return redirect('home_page')
+
+
+def favorite_page(request):
+    task = FavoriteTask.objects.filter(user=request.user)
+    context = {
+        'task': task
+    }
+    return render(request, 'Tasksapp/favorite_task', context)
 
 
 def register_user(request):
@@ -66,9 +95,15 @@ def auth_user(request):
 
 
 def home_page(request):
-    user = User.objects.all()
+    task_obj = Tasks.objects.all()
     context = {
-        'user': user
+        'task_obj': task_obj
     }
     return render(request, 'Tasksapp/home_page.html', context)
 
+
+def update(request, id):
+    pri = Tasks.objects.get(id=id)
+    pri.priority = not pri.priority
+    pri.save()
+    return redirect('create_task')

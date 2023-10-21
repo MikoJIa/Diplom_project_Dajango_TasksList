@@ -1,11 +1,9 @@
 {% extends 'Tasksapp/base.html' %}
 
-{% block title %}Домашняя страница{% endblock title %}
-
 {% block header %}{% endblock header %}
 
 {% block content %}
-{% if task_obj.count > 0 %}
+{% if task.count > 0 %}
     <table class="table table-striped table-bordered text-start">
         <thead>
         <tr>
@@ -13,20 +11,16 @@
             <th>Задача</th>
             <th>Краткое описание</th>
             <th>Дата записи</th>
-            <th>Приоритет</th>
-            <th>Добавить в избранное</th>
             <th>Удалить</th>
         </tr>
         </thead>
         <tbody>
-        {% for task in task_obj %}
+        {% for task in task %}
         <tr>
             <td>{{ task.id }}</td>
             <td>{{ task.title }}</td>
             <td>{{ task.description }}</td>
             <td>{{ task.created_task }}</td>
-            <td>{{ task.priority }}</td>
-            <td><a href="add_favorite_task/{{ task.id }}">Добавить в избранное</a></td>
             <td><a href="task_delete/{{ task.id }}">Удалить</a></td>
         </tr>
         {% endfor %}
