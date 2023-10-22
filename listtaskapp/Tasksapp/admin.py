@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Tasksapp.models import Tasks, User, FavoriteTask
+from .models import Tasks, User, FavoriteTask
 
 
 admin.site.register(Tasks)

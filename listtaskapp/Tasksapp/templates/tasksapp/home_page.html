@@ -13,8 +13,8 @@
             <th>Задача</th>
             <th>Краткое описание</th>
             <th>Дата записи</th>
+            <th>Активна/Завершина</th>
             <th>Приоритет</th>
-            <th>Добавить в избранное</th>
             <th>Удалить</th>
         </tr>
         </thead>
@@ -25,8 +25,34 @@
             <td>{{ task.title }}</td>
             <td>{{ task.description }}</td>
             <td>{{ task.created_task }}</td>
-            <td>{{ task.priority }}</td>
-            <td><a href="add_favorite_task/{{ task.id }}">Добавить в избранное</a></td>
+            <td>
+                {% if task.finished_task %}
+                <div class="card_body"  onclick="location.href='{% url 'status_task' task.pk False %}'">
+                    <div>
+                        <input type="submit" name="Завершина" class="btn btn-danger" value="Завершина">
+                    </div>
+                </div>
+                {% else %}
+                <div class="card_body"  onclick="location.href='{% url 'status_task' task.pk True %}'">
+                    <div>
+                        <input type="submit" name="Активна" class="btn btn-primary" value="Активна">
+                    </div>
+                </div>
+                {% endif %}
+            </td>
+            <td>
+                {% if task.is_favorite == True %}
+                <div>
+<!--                    <input type="checkbox" id="scales" name="scales" checked />-->
+                    <label for="Высокий">Высокий</label>
+                </div>
+                {% elif task.is_favorite == False %}
+                <div>
+<!--                    <input type="checkbox" id="horns" name="horns" checked/>-->
+                    <label for="Низкий">Низкий</label>
+                </div>
+                {% endif %}
+            </td>
             <td><a href="task_delete/{{ task.id }}">Удалить</a></td>
         </tr>
         {% endfor %}

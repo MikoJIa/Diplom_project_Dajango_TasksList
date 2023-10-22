@@ -18,7 +18,7 @@ class Tasks(models.Model):
     description = models.TextField()
     created_task = models.DateTimeField(auto_now_add=True, verbose_name='Время создания задачи')
     finished_task = models.BooleanField(default=False, verbose_name='Задача окончена')
-    priority = models.BooleanField(default=False, verbose_name='Приоритет задачи')
+    is_favorite = models.BooleanField(default=False, verbose_name='Важная задача')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -19,7 +19,7 @@ def create_task(request):
             user = User.objects.get(user=request.user) # Нужно обратить внимание, что мы
             # используем не id поле, а мы используем именно объект
             task.user = user.save()
-            return redirect('create_task')
+            return redirect('home_page')
     form = TaskForm()
     task_obj = Tasks.objects.all()
     context = {
@@ -27,6 +27,13 @@ def create_task(request):
         'task_obj': task_obj
     }
     return render(request, 'Tasksapp/create_task.html', context)
+
+
+def status_task(request, pk, status):
+    task = Tasks.objects.get(pk=pk)
+    task.finished_task = status
+    task.save()
+    return redirect('home_page')
 
 
 def task_delete(request, id):
@@ -38,22 +45,11 @@ def task_delete(request, id):
         return HttpResponseNotFound(f'<h1>Такая задача не найдена!!!</h1>')
 
 
-def add_favorite_task(request, task_id):
-    # task = Tasks.objects.get(id=task_id)
-    # favorite, created = FavoriteTask.objects.get_or_create(user=request.user)
-    # if task in favorite.task.all():
-    #     favorite.task.remove(task)
-    # else:
-    #     favorite.task.add(task)
-    # return redirect('favorite_task', task_id=task_id)
-    if request.method == 'POST':
-        task = Tasks.objects.get(pk=task_id)
-
-    # task = Tasks.objects.get(id=task_id)  # Находим нужную задачу
-    # user = User.objects.get(user=request.user)
-    # favorite_task = FavoriteTask(user=user, task=task)
-    # favorite_task.save()
-    return redirect('home_page')
+def add_favorite_task(request, task_id, user_id):
+    task = Tasks.objects.get(id=task_id)  # Находим нужную задачу
+    favorite_task = FavoriteTask.objects.create(user=user, task=task.user.id)
+    favorite_task.save()
+    task = FavoriteTask.objects.get(id=task_id)
 
 
 def favorite_page(request):

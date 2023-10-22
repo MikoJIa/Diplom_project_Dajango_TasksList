@@ -36,5 +36,5 @@ class UserLoginForm(AuthenticationForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Tasks
-        fields = '__all__'
+        fields = '__all__'  # ['title', 'description', 'user', 'is_favorite']''
         obj_task = Manager()
