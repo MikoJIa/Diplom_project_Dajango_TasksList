@@ -2,10 +2,14 @@
 
 {% block title %}Домашняя страница{% endblock title %}
 
-{% block header %}{% endblock header %}
+{% block header %}
+
+{% endblock header %}
 
 {% block content %}
 {% if task_obj.count > 0 %}
+<div class="container-fluid border border-5 border-warning">
+
     <table class="table table-striped table-bordered text-start">
         <thead>
         <tr>
@@ -58,5 +62,6 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
     {% endif %}
 {% endblock content %}

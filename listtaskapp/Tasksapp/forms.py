@@ -28,9 +28,13 @@ class UserRegisterForm(forms.ModelForm):
 
 
 class UserLoginForm(AuthenticationForm):
-    class Meta:
-        model = User
-        fields = ['name', 'password']
+    username = forms.CharField(label='Имя пользователя',
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label='Пароль',
+                               widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    # class Meta:
+    #     model = User
+    #     fields = ['name', 'password']
 
 
 class TaskForm(forms.ModelForm):

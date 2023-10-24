@@ -7,6 +7,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script defer src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <title>{% block title %}Главная страница{% endblock %}</title>
 </head>
@@ -18,7 +19,9 @@
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
         </a>
-
+           {% if request.user.is_authenticated %}
+                <p>Hello {{request.user}}</p>
+            {% endif %}
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             <button type="button" class="btn btn-warning border border-2 border-dark"><a href="{% url 'home_page' %}" class="nav-link px-2 text-secondary">Домашняя</a></button>
 <!--          <li><a href="{% url 'home_page' %}" class="nav-link px-2 text-secondary">Домашняя</a></li>-->
@@ -28,7 +31,7 @@
 <!--          <li><a href="{% url 'register' %}" class="nav-link px-2 text-white">Регистрация</a></li>-->
             <button type="button" class="btn btn-warning border border-2 border-dark"><a href="{% url 'auth_user' %}" class="nav-link px-2 text-secondary">Авторизация</a></button>
         </ul>
-
+            <a class="btn btn-warning" href="#">Logout</a>
 <!--        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">-->
 <!--          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">-->
 <!--        </form>-->
