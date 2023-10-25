@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('create_task/', views.create_task),
     path('register/', views.register_user, name='register'),
@@ -9,6 +10,8 @@ urlpatterns = [
     path('create_task/', views.create_task, name='create_task'),
     path('home_page/task_delete/<int:id>/', views.task_delete, name='task_delete'),
     path('status_task/<int:pk>/<str:status>/', views.status_task, name='status_task'),
+    path('priority_task/<int:pk>/<str:status>/', views.priority_task, name='priority_task'),
+    path('profile/', views.profile_view, name='profile')
     # path('home_page/add_favorite_task/<int:id>/', views.add_favorite_task),
     # path('favorite_task/', views.favorite_page),
 

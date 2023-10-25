@@ -1,4 +1,4 @@
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.core.mail import message
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -37,6 +37,13 @@ def status_task(request, pk, status):
     return redirect('home_page')
 
 
+def priority_task(request, pk, status):
+    task = Tasks.objects.get(pk=pk)
+    task.is_favorite = status
+    task.save()
+    return redirect('home_page')
+
+
 def task_delete(request, id):
     try:
         task = Tasks.objects.get(id=id)
@@ -66,12 +73,18 @@ def register_user(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
+            user = form.cleaned_data.get('name')
+            messages.success(request, f'Аккаунт - {user} создан')
             return render(request, 'Tasksapp/register_done.html')
     form = UserRegisterForm()
     context = {
         'form': form
     }
     return render(request, 'Tasksapp/register.html', context)
+
+
+def profile_view(request):
+    return render(request, 'Tasksapp/profile.html')
 
 
 def auth_user(request):

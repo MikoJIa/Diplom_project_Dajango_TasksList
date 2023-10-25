@@ -6,9 +6,8 @@
     <h3 class="bg-warning text-center"> Пожалуйста заполните форму</h3>
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <font color="yellow">{{ form.as_p }}</font>
     <p><input type="submit" value="Создать мою учетную запись"></p>
-
 </form>
 
 {% endblock content %}

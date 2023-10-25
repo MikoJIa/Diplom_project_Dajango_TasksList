@@ -9,7 +9,9 @@
     <form action="" method="post">
         {% csrf_token %}
         <div class="form-group my-2">
+            <font color="yellow">
             {{ form.as_p }}
+            </font>
             <button type="submit">Создать задачу</button>
         </div>
     </form>

@@ -45,15 +45,17 @@
                 {% endif %}
             </td>
             <td>
-                {% if task.is_favorite == True %}
-                <div>
-<!--                    <input type="checkbox" id="scales" name="scales" checked />-->
-                    <label for="Высокий">Высокий</label>
+                {% if task.is_favorite %}
+                <div class="card_body"  onclick="location.href='{% url 'priority_task' task.pk False %}'">
+                    <div>
+                        <input type="submit" name="Высокий" class="btn btn-primary" value="Высокий">
+                    </div>
                 </div>
                 {% elif task.is_favorite == False %}
-                <div>
-<!--                    <input type="checkbox" id="horns" name="horns" checked/>-->
-                    <label for="Низкий">Низкий</label>
+                <div class="card_body"  onclick="location.href='{% url 'priority_task' task.pk True %}'">
+                    <div>
+                        <input type="submit" name="Низкий" class="btn btn-danger" value="Низкий">
+                    </div>
                 </div>
                 {% endif %}
             </td>
