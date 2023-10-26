@@ -3,8 +3,8 @@ from django.core.mail import message
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from .forms import TaskForm, UserRegisterForm, UserLoginForm
-from django.contrib.auth import login, authenticate
+from .forms import TaskForm, UserRegisterForm
+from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse, HttpResponseNotFound
 from .models import User, Tasks, FavoriteTask
 from django.contrib.auth.decorators import login_required
@@ -83,35 +83,34 @@ def register_user(request):
     return render(request, 'Tasksapp/register.html', context)
 
 
-def profile_view(request):
-    return render(request, 'Tasksapp/profile.html')
-
-
 def auth_user(request):
     if request.method == 'POST':
-        form = UserLoginForm(request, data=request.POST)
-        if form.is_valid():
-            # name = request.POST.get('username')
-            # password = request.POST.get('password')
-            # user = authenticate(request, name=name, password=password)
-            user = form.get_user()
+        # form = UserLoginForm(request, data=request.POST)
+        # is form.is_valid():
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        # user = form.get_user()
+        # login(request, user)
+        if user is not None:
             login(request, user)
             return redirect('home_page')
-            # if user is not None:
-            #     login(request, user)
-            #     return HttpResponse('Пользователь вошёл в систему')
-            # else:
-            #     return HttpResponseNotFound('Введены не верные данные')
-    else:
-        form = UserLoginForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'Tasksapp/auth_user.html', context)
+
+    #     form = UserLoginForm()
+    # context = {
+    #     'form': form
+    # }
+    return render(request, 'Tasksapp/auth_user.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('auth_user')
 
 
 def home_page(request):
     task_obj = Tasks.objects.all()
+    print(request.user)
     context = {
         'task_obj': task_obj
     }

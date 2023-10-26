@@ -129,7 +129,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = reverse_lazy('Tasksapp: profile')
-LOGIN_URL = 'register_done'
+
 
 #admin
 #name: nikolay

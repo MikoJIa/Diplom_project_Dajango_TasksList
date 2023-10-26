@@ -6,20 +6,34 @@
 
 {% block content %}
     <body>
-        <br>
-        <div class="container bg-white p-5" style="width:500px;">
-            <h4> Login to your account </h4>
-            <br>
-            <br>
-            <form method="POST" autocomplete="off">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <br> <br>
-                <button type="submit" class="btn btn-warning btn-lg w-100 btn-block p-4"> Login </button>
-            </form>
+    <div class="container-fluid">
+    <form method="POST" action="">
+        {% csrf_token %}
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label text-warning">username</label>
+        <input name="username" type="text" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label text-warning">Password</label>
+        <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+<!--        <br>-->
+<!--        <div class="container bg-white p-5" style="width:500px;">-->
+<!--            <h4> Login to your account </h4>-->
+<!--            <br>-->
+<!--            <br>-->
+<!--            <form method="POST" action="{% url 'auth_user' %}">-->
+<!--                {% csrf_token %}-->
+<!--                {{ form.as_p }}-->
+<!--                <br> <br>-->
+<!--                <button type="submit" class="btn btn-warning     btn-lg w-100 btn-block p-4"> Login </button>-->
+<!--            </form>-->
 
-        </div>
-        <br>
+<!--        </div>-->
+<!--        <br>-->
     </body>
 
 {% endblock content %}
