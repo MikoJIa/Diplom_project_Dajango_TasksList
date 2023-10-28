@@ -1,16 +1,17 @@
 from django.contrib import auth, messages
-from django.core.mail import message
-from django.shortcuts import render, redirect, get_object_or_404
+
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 
-from .forms import TaskForm, UserRegisterForm
+from Tasksapp.forms import TaskForm, UserRegisterForm, UserLoginForm
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse, HttpResponseNotFound
 from .models import User, Tasks, FavoriteTask
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+# from django.http import JsonResponse
 
 
+@login_required
 def create_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -30,6 +31,7 @@ def create_task(request):
     return render(request, 'Tasksapp/create_task.html', context)
 
 
+@login_required
 def status_task(request, pk, status):
     task = Tasks.objects.get(pk=pk)
     task.finished_task = status
@@ -37,6 +39,7 @@ def status_task(request, pk, status):
     return redirect('home_page')
 
 
+@login_required
 def priority_task(request, pk, status):
     task = Tasks.objects.get(pk=pk)
     task.is_favorite = status
@@ -44,6 +47,7 @@ def priority_task(request, pk, status):
     return redirect('home_page')
 
 
+@login_required
 def task_delete(request, id):
     try:
         task = Tasks.objects.get(id=id)
@@ -70,12 +74,12 @@ def task_delete(request, id):
 
 def register_user(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('name')
             messages.success(request, f'Аккаунт - {user} создан')
-            return render(request, 'Tasksapp/register_done.html')
+            return redirect('register_done')
     form = UserRegisterForm()
     context = {
         'form': form
@@ -84,23 +88,26 @@ def register_user(request):
 
 
 def auth_user(request):
-    if request.method == 'POST':
-        # form = UserLoginForm(request, data=request.POST)
-        # is form.is_valid():
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        # user = form.get_user()
-        # login(request, user)
-        if user is not None:
-            login(request, user)
-            return redirect('home_page')
+    if request.method == 'POST':  # Если запрос пост
+        form = UserLoginForm(request, data=request.POST)  # мы формируем данные в форме
+        # это те данные которые мы получили от юзера в форме
+        if form.is_valid():  # теперь мы проверяем валидные данные или нет
+            username = request.POST['username']
+            password = request.POST['password']
+            user = auth.authenticate(request, username=username, password=password)  # На этом
+            # участке кода, мы проверяем существует ли у нас пользователь или нет
+            # login(request, user)
+            if user is not None:  # Если наш пользователь не None(тоесть он зарегистрирован на сайте)
+                auth.login(request, user)  # Мы его авторизовываем
 
-    #     form = UserLoginForm()
-    # context = {
-    #     'form': form
-    # }
-    return render(request, 'Tasksapp/auth_user.html')
+                return HttpResponseRedirect(reverse('home_page'))
+
+    else:
+        form = UserLoginForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'Tasksapp/auth_user.html', context)
 
 
 def logout_user(request):

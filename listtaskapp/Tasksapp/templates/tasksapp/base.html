@@ -29,14 +29,15 @@
 <!--          <li><a href="{% url 'register' %}" class="nav-link px-2 text-white">Регистрация</a></li>-->
 <!--            <button type="button" class="btn btn-warning border border-2 border-dark"><a href="{% url 'auth_user' %}" class="nav-link px-2 text-secondary">Авторизация</a></button>-->
         </ul>
-            {% if request.user.is_authenticated %}
+          {% if request.user.is_authenticated %}
             <div class="">
-                <p>Hello {{request.user}}</p>
+                <p>Привет {{request.user}}</p>
             </div>
-          <a class="btn btn-warning" href="{% url 'logout_user' %}">Выйти</a>
-            {% else %}
-          <a class="btn btn-warning" href="{% url 'auth_user' %}">Войти</a>
-            {% endif %}
+                <p ><a class="btn btn-warning" href="{% url 'logout_user' %}">Выйти</a></p>
+          {% else %}
+                <p><a class="btn btn-warning" href="{% url 'auth_user' %}">Войти</a></p>
+          {% endif %}
+
 <!--        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">-->
 <!--          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">-->
 <!--        </form>-->

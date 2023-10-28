@@ -13,12 +13,18 @@ from django.forms import ModelForm
 #         fields = ['name', 'age', 'first_password', 'second_password']
 
 class UserRegisterForm(forms.ModelForm):
-    password1 = forms.CharField(label='password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                             'placeholder': 'Введите имя'}))
+    age = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                           'placeholder': 'Возраст'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                                  'placeholder': 'Введите пароль'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                                  'placeholder': 'Подтвердите пароль'}))
 
     class Meta:
         model = User
-        fields = ['name', 'age']
+        fields = ['name', 'age', 'password1', 'password2']
 
     def clean_password(self):  # для проверки совпадения первого пороля и второго
         cd = self.cleaned_data  # эта проверка происходит на этапе is_valid()
@@ -27,14 +33,14 @@ class UserRegisterForm(forms.ModelForm):
         return cd['password2']
 
 
-# class UserLoginForm(AuthenticationForm):
-#     username = forms.CharField(label='Имя пользователя',
-#                                widget=forms.TextInput(attrs={'class': 'form-control'}))
-#     password = forms.CharField(label='Пароль',
-#                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    # class Meta:
-    #     model = User
-    #     fields = ['name', 'password']
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(label='Имя пользователя',
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label='Пароль',
+                               widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    class Meta:
+        model = User
+        fields = ['name', 'password']
 
 
 class TaskForm(forms.ModelForm):
