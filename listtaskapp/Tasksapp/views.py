@@ -117,9 +117,29 @@ def logout_user(request):
 
 def home_page(request):
     task_obj = Tasks.objects.all()
-    print(request.user)
+
     context = {
         'task_obj': task_obj
     }
     return render(request, 'Tasksapp/home_page.html', context)
 
+
+def username(request):
+    user = User.objects.all()
+    context = {
+        'user': user
+    }
+    return render(request, 'Tasksapp/username.html', context)
+
+
+def delete_user(request, id):
+    try:
+        user = User.objects.get(id=id)
+        user.delete()
+        return redirect('username')
+    except NameError:
+        return HttpResponseNotFound(f'<h1>Пользователя с таким именем не существует</h1>')
+
+
+def update_user(request):
+    pass

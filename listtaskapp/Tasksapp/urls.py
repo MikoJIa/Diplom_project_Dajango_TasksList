@@ -11,7 +11,10 @@ urlpatterns = [
     path('home_page/task_delete/<int:id>/', views.task_delete, name='task_delete'),
     path('status_task/<int:pk>/<str:status>/', views.status_task, name='status_task'),
     path('priority_task/<int:pk>/<str:status>/', views.priority_task, name='priority_task'),
-    path('logout_user/', views.logout_user, name='logout_user')
+    path('logout_user/', views.logout_user, name='logout_user'),
+    path('username/', views.username, name='username'),
+    path('username/delete_user/<int:id>/', views.delete_user, name='delete_name'),
+    path('username/update_user/<int:id>/', views.update_user, name='update_user'),
     # path('home_page/add_favorite_task/<int:id>/', views.add_favorite_task),
     # path('favorite_task/', views.favorite_page),
 

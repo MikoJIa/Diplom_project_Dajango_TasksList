@@ -59,7 +59,7 @@
                 </div>
                 {% endif %}
             </td>
-            <td><a href="task_delete/{{ task.id }}">Удалить</a></td>
+            <td><a href="{% url 'task_delete' id=task.id %}">Удалить</a></td>
         </tr>
         {% endfor %}
         </tbody>

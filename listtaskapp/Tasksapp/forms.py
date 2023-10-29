@@ -6,11 +6,14 @@ from .models import User, Tasks
 from django.forms import ModelForm
 
 
-# class UserRegisterForm(UserCreationForm):
-#
-#     class Meta:
-#         model = User
-#         fields = ['name', 'age', 'first_password', 'second_password']
+class ChangeUserNameForme(forms.Form):
+    new_username = forms.CharField(max_length=50)
+    new_age = forms.IntegerField()
+
+    class Meta:
+        model = User
+        fields = ['new_username', 'new_age', ]
+
 
 class UserRegisterForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
